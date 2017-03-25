@@ -18,9 +18,8 @@ Datum::~Datum()
 
 }
 
-void Datum::posunOJedenDen()
+void Datum::posunOJedenDen() // Toto mozem este urobit inteligentnejsie, aby vedelo dni v mesiaci a aj priestopny rok ...
 {
-	// MOZNO ESTE UPRAVIT NA TVAR, ABY CHECKOVAL PRIESTUPNY, NEPRIESTUPNY ROK A PRESNE MESIAC
 	if (den_ == 30)
 	{
 		den_ = 1;

@@ -32,15 +32,24 @@ ArrayList<Kamion *> * Dodavatel::dodavatelKamiony()
 	return kamiony_;
 }
 
-void Dodavatel::ohlaseniePrichoduKamionov() // SUVISI S ULOHOU 5.
+void Dodavatel::ohlaseniePrichoduKamionov()
 {
 	cout << "Dodavatel: " << ob_nazov_ << endl << endl;
 
 	int index = 1;
 	for each (Kamion *kamion in *kamiony_)
 	{
-		cout << " - kamion: " << index << " : " << kamion->getDatumPrichodu()->vratRetazec() << endl;
+		cout << " >> kamion: " << index << " : " << kamion->getDatumPrichodu()->vratRetazec() << endl;
 		index++;
+
+		for each (Paleta *pal in *kamion->getObsahKamiona())
+		{
+			if (pal->getPriorita())
+				cout << "   -> Paleta 1-trieda: " << pal->getHmotnostPalety() << " kg | Region: " << pal->getIdRegion() << " | Datum dorucenia: " << pal->getDatumDorucenia()->vratRetazec() << endl;
+			else
+				cout << "   -> Paleta: " << pal->getHmotnostPalety() << " kg | Region: " << pal->getIdRegion() << endl;
+		}
+
 	}
 
 	cout << endl;

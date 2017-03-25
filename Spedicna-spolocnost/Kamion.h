@@ -8,10 +8,6 @@
 class Kamion
 {
 public:
-	/// <summary> Vrati datum, kedy vozidlo bolo zaradene do prevadzky</summary>
-	/// <param name = "evidCislo"> Evidencne cislo vozidla </param>
-	/// <returns> Datum </returns>
-
 	/// <summary> Konstruktor</summary>
 	/// <param name = "paKapacita"> Nosnost kamionou v KG</param>
 	/// <param name = "paDen"> Den prichodu do skladu</param>
