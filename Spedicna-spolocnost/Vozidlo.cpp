@@ -3,9 +3,8 @@
 
 
 Vozidlo::Vozidlo(string evidCislo, int nosnost, Datum *datumZaradenia):
-	evidCislo_(evidCislo), nosnost_(nosnost), aktualneNalozenie_(0), regionRoznaska_(0), cakajuceNaOdpis_(false)
+	evidCislo_(evidCislo), nosnost_(nosnost), aktualneNalozenie_(0), regionRoznaska_(0), cakajuceNaOdpis_(false), opotrebenie_(0)
 {
-	opotrebenie_ = 0;
 	datumZaradenia_ = datumZaradenia;
 	paletyVoVozidle_ = new ArrayList<Paleta *>();
 }
@@ -15,8 +14,6 @@ Vozidlo::~Vozidlo()
 {
 	delete datumZaradenia_;
 	Helper::vymazList(paletyVoVozidle_);
-	//delete paletyVoVozidle_;
-	//delete paletyVoVozidle_; // V podstate obsah budem riesti vo firme - sprava pamate.
 }
 
 void Vozidlo::vypisParametre()

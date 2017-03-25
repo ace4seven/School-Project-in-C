@@ -5,7 +5,7 @@
 Cui::Cui()
 {
 	system("cls");
-	spedFirma_ = new Firma(1, 3, 2017, 5);
+	spedFirma_ = new Firma(1, 1, 2017, 10);
 	test = new Testing(spedFirma_);
 	vypisMenu();
 }
@@ -372,7 +372,7 @@ void Cui::pridajDodavatelaScreen()
 							cout << "   >>> ";
 
 							for (;;) {
-								if (cin >> palReg && palReg > 0) {
+								if (cin >> palReg && palReg > 0 && palReg <= spedFirma_->getPocetRegionov()) {
 									break;
 								}
 								else {

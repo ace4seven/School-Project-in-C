@@ -39,7 +39,7 @@ void Dodavatel::ohlaseniePrichoduKamionov() // SUVISI S ULOHOU 5.
 	int index = 1;
 	for each (Kamion *kamion in *kamiony_)
 	{
-		cout << "Kamion: " << index << " : " << kamion->getDatumPrichodu()->vratRetazec() << endl;
+		cout << " - kamion: " << index << " : " << kamion->getDatumPrichodu()->vratRetazec() << endl;
 		index++;
 	}
 

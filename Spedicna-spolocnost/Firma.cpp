@@ -3,10 +3,10 @@
 
 
 Firma::Firma():
-	pocetRegionov_(3)
+	pocetRegionov_(5)
 {
 	initAplikaciu();
-	dnesnyDatum_ = new Datum(4, 5, 2017);
+	dnesnyDatum_ = new Datum(1, 1, 2017);
 }
 
 Firma::Firma(int paDen, int paMesiac, int paRok, int paPocetRegionov):
@@ -100,7 +100,7 @@ void Firma::vypisVozidlaPodlaDatEv()
 
 void Firma::skontrolujPrichodyKamionov() // O(n^2)
 {
-	cout << endl << ">> DNESNE OCAKAVANE PRICHODY KAMIONOV: " << endl << endl;
+	cout << endl << ">> DNES EVIDUJEME PRICHODY TYCHTO KAMIONOV: " << endl << endl;
 	
 	int pocetPrichodov = 0;
 	int maxNosnostVozidiel = getMaxHmotnostVozidiel(vozidla_);
@@ -124,7 +124,6 @@ void Firma::skontrolujPrichodyKamionov() // O(n^2)
 
 			if (*kamion->getDatumPrichodu() < *this->dnesnyDatum_)
 			{
-				// Toto bude asi padat, treba vyhodit ten index a ten removenut. TODO - FUNGUJE AJ BEZ
 				kamionyNaVyradenie->push(kamion);
 			}
 		}
@@ -602,19 +601,19 @@ void Firma::vypisPalietVCentralnomSklade()
 
 	for each (Paleta *pal in *neroztriedenePalety_)
 	{
-		cout << "Paleta 1 triedy s prichodom do skladu: " << pal->getDatumPrichoduDoSkladu()->vratRetazec();
-		cout << " | s planovanym datum odovzdania: " << pal->getDatumDorucenia()->vratRetazec();
-		cout << " | s hmotnostou: " << pal->getHmotnostPalety() << " kg" << " a dodavatel: " << *pal->getDodvatelPalety()->getObchodnyNazov() << endl;
+		cout << "Paleta 1.trieda | Uskladnena: " << pal->getDatumPrichoduDoSkladu()->vratRetazec();
+		cout << " | Datum odovzdania: " << pal->getDatumDorucenia()->vratRetazec();
+		cout << " | Vaha: " << pal->getHmotnostPalety() << " kg" << " | Dodavatel: " << *pal->getDodvatelPalety()->getObchodnyNazov() << endl;
 	}
 
 	for each (Paleta * pal in *sklad_)
 	{
 		if (pal->getStavZasielky() == PENDING)
 		{
-			cout << "Paleta s prichodom do skladu: " << pal->getDatumPrichoduDoSkladu()->vratRetazec();
+			cout << "Paleta uskladnena: " << pal->getDatumPrichoduDoSkladu()->vratRetazec();
 			if (pal->getPriorita())
-				cout << " | 1. trieda planovanym datum odovzdania: " << pal->getDatumDorucenia()->vratRetazec();
-			cout << " | s hmotnostou: " << pal->getHmotnostPalety() << " kg" << " a dodavatel: " << *pal->getDodvatelPalety()->getObchodnyNazov() << endl;
+				cout << " | 1. trieda | Datum odovzdania: " << pal->getDatumDorucenia()->vratRetazec();
+			cout << " | Vaha: " << pal->getHmotnostPalety() << " kg" << " | Dodavatel: " << *pal->getDodvatelPalety()->getObchodnyNazov() << endl;
 		}
 	}
 }
