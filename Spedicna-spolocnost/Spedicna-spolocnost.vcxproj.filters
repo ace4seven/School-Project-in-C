@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\structures">
+      <UniqueIdentifier>{c137f40c-8a34-4eb7-92f4-e3de607e9470}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\structures\array">
+      <UniqueIdentifier>{1d327e0b-c4c4-4756-8d23-8a4cc0ea1b87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\structures\vector">
+      <UniqueIdentifier>{94c50f05-096b-4117-ae70-c6efdb3dad69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\structures\list">
+      <UniqueIdentifier>{ad6a201b-ed52-429c-997f-caeb7e8af6d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\structures\priority_queue">
+      <UniqueIdentifier>{70f497ae-07d1-4945-9714-5cb0eef3221f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\structures\queue">
+      <UniqueIdentifier>{e5099c4c-a32e-4876-a73f-d1494765d416}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\structures\stack">
+      <UniqueIdentifier>{827c7882-3a23-4fad-b7b4-1ef2366e589a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="structures\vector\vector.cpp">
+      <Filter>Header Files\structures\vector</Filter>
+    </ClCompile>
+    <ClCompile Include="structures\ds_routines.cpp">
+      <Filter>Header Files\structures</Filter>
+    </ClCompile>
+    <ClCompile Include="structures\memory_routines.cpp">
+      <Filter>Header Files\structures</Filter>
+    </ClCompile>
+    <ClCompile Include="structures\structure.cpp">
+      <Filter>Header Files\structures</Filter>
+    </ClCompile>
+    <ClCompile Include="Vozidlo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Firma.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Datum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dodavatel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Kamion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Paleta.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Region.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Testing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SuborIO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="structures\vector\vector.h">
+      <Filter>Header Files\structures\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\array\array.h">
+      <Filter>Header Files\structures\array</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\ds_routines.h">
+      <Filter>Header Files\structures</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\heap_monitor.h">
+      <Filter>Header Files\structures</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\memory_routines.h">
+      <Filter>Header Files\structures</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\structure.h">
+      <Filter>Header Files\structures</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\structure_iterator.h">
+      <Filter>Header Files\structures</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\ds_structure_types.h">
+      <Filter>Header Files\structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Vozidlo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Firma.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\list\array_list.h">
+      <Filter>Header Files\structures\list</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\list\linked_list.h">
+      <Filter>Header Files\structures\list</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\list\list.h">
+      <Filter>Header Files\structures\list</Filter>
+    </ClInclude>
+    <ClInclude Include="Datum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dodavatel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Kamion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Paleta.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Region.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\priority_queue\heap.h">
+      <Filter>Header Files\structures\priority_queue</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\priority_queue\priority_queue.h">
+      <Filter>Header Files\structures\priority_queue</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\priority_queue\priority_queue_list.h">
+      <Filter>Header Files\structures\priority_queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Testing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\queue\explicit_queue.h">
+      <Filter>Header Files\structures\queue</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\queue\queue.h">
+      <Filter>Header Files\structures\queue</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\stack\explicit_stack.h">
+      <Filter>Header Files\structures\stack</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\stack\stack.h">
+      <Filter>Header Files\structures\stack</Filter>
+    </ClInclude>
+    <ClInclude Include="SuborIO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="developer_notes.txt" />
+    <Text Include="save.txt" />
+    <Text Include="demo.txt" />
+  </ItemGroup>
+</Project>
