@@ -110,7 +110,7 @@ void Firma::skontrolujPrichodyKamionov() // O(n^2)
 		for each (Kamion *kamion in *dodavatel->dodavatelKamiony())
 		{
 			dnesRozvazame_ = true;
-			if (*kamion->getDatumPrichodu() == *dnesnyDatum_)
+			if (*kamion->getDatumPrichodu() == *dnesnyDatum_ && !kamion->getVylozeny())
 			{
 				pocetPrichodov++;
 				vylozObsahKamionuDoSkladu(kamion, maxNosnostVozidiel, dodavatel);

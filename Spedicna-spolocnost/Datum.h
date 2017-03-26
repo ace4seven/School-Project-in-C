@@ -48,6 +48,13 @@ public:
 	void setUpravDatum(int den, int mesiac, int rok);
 
 private:
+	/// <summary> Pomocna metoda, ktora dokaze povedat, ci je zadany rok priestupny, alebo nie</summary>
+	/// <returns> vrati True, ak sa jedna o priestupny rok</returns>
+	bool jePriestupnyRok();
+	/// <summary> Pomocna metoda, ktora podla mesiaca dokaze urcit presny pocet dni v tom danom mesiaci</summary>
+	/// <returns> cele kladne cislo v intervale 1-31 </returns>
+	int dniVMesiaci();
+
 	/// <summary> Den ako cele cislo</summary>
 	int den_;
 	/// <summary> Mesiac ako cele cislo</summary>

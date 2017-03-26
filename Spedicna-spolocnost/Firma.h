@@ -14,10 +14,6 @@
 using namespace structures;
 using namespace std;
 
-/// <summary> Vrati datum, kedy vozidlo bolo zaradene do prevadzky</summary>
-/// <param name = "evidCislo"> Evidencne cislo vozidla </param>
-/// <returns> Datum </returns>
-
 // SPEDICNA SPOLOCNOST
 class Firma
 {
@@ -42,7 +38,6 @@ public:
 	/// <summary> Inicializuje sa kontainer uskladnenePodla regionov a nastavia sa regiony</summary>
 	void inicializujSkladPreRegiony();
 
-	// METODY, KTORE URCUJU VYPRACOVANE ZADANIE
 	/// <summary> Vypisanie stavov vozidiel vo firme na konzolu </summary>
 	void vypisVozidlaPodlaDatEv(); // ULOHA 2
 	/// <summary> Vypisanie registrovanych dodavatelov - ich obchodny nazov a adresa sidla</summary>
