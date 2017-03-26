@@ -224,6 +224,7 @@ void Firma::posunNaDalsiDen()
 		if (pal->getPriorita() && *pal->getDatumDorucenia() == *dnesnyDatum_)
 		{
 			sklad_->add(pal);
+			vahaNaskladnenychPaliet_ += pal->getHmotnostPalety();
 			paletyVon->push(pal);
 		}
 	}
@@ -550,7 +551,6 @@ void Firma::prevzatiePalietZakaznikmi()
 			kapacitaVozidiel_ -= voz->getNosnost();
 			voz->setNastavNaOdpis();
 			frontNaOdpis_->push(voz);
-			vozidla_->tryRemove(voz);
 		}
 
 		voz->setRegionRoznasania(0);
@@ -620,7 +620,7 @@ void Firma::vypisPaliet1TriedyNezrealizovane()
 
 	for each (Paleta *pal in *neprevzatePalety_)
 		if (pal->getPriorita())
-			cout << "PALETA s prichodom do CS: " << pal->getDatumPrichoduDoSkladu()->vratRetazec() << " | datum dorucenia: " << pal->getDatumDorucenia()->vratRetazec() << " | hmotnost: " << pal->getHmotnostPalety() << " | dodavatel: " << pal->getDodvatelPalety()->getObchodnyNazov() << endl;
+			cout << "PALETA s prichodom do CS: " << pal->getDatumPrichoduDoSkladu()->vratRetazec() << " | datum dorucenia: " << pal->getDatumDorucenia()->vratRetazec() << " | hmotnost: " << pal->getHmotnostPalety() << " | dodavatel: " << *pal->getDodvatelPalety()->getObchodnyNazov() << endl;
 }
 
 void Firma::inicializujSkladPreRegiony()

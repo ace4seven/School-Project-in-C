@@ -21,7 +21,7 @@ public:
 	/// <summary> Staticka metoda, nacita firmu zo suboru</summary>
 	/// <param name = "spedFirma"> objekt Firma </param>
 	/// <returns> Uspesne nacitanie = True </returns>
-	static bool nacitajZoSuboru(Firma *spedFirma); 
+	static bool nacitajZoSuboru(Firma *spedFirma, string subor); 
 private:
 	/// <summary> Privatny konstruktor</summary>
 	SuborIO();

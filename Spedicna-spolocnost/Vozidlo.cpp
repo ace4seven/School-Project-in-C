@@ -18,7 +18,9 @@ Vozidlo::~Vozidlo()
 
 void Vozidlo::vypisParametre()
 {
-	cout << "Vozidlo - SPZ: " << evidCislo_ << ". Nosnost: " << nosnost_ << ". Opotrebenie: " << opotrebenie_ << ". " << endl;
+	if (cakajuceNaOdpis_)
+		cout << "ODPIS - ";
+	cout << " Vozidlo - SPZ: " << evidCislo_ << ". Nosnost: " << nosnost_ << ". Opotrebenie: " << opotrebenie_ << ". " << endl;
 }
 
 Datum * Vozidlo::getDatumZaradenia()

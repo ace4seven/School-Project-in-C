@@ -37,7 +37,8 @@ void Cui::vypisMenu()
 	cout << " 12 > Vyradenie vozidiel z FRONTU na odpis " << endl; // ULOHA 10
 	cout << " 13 > NACITAT ULOZENE DATA " << endl;
 	cout << " 14 > ULOZIT NOVE DATA " << endl;
-	cout << " 15 > UKONCIT aplikaciu " << endl;
+	cout << " 15 > NACITAJ DEMO DATA " << endl;
+	cout << " 16 > UKONCIT aplikaciu " << endl;
 	cout << " -------------------------------------------------- " << endl << endl;
 	cout << " >>> ";
 
@@ -111,7 +112,7 @@ void Cui::vypisMenu()
 	case 13:
 		system("cls");
 		//test->pripravTestovacieData();
-		if (SuborIO::nacitajZoSuboru(spedFirma_))
+		if (SuborIO::nacitajZoSuboru(spedFirma_, "save.txt"))
 			cout << "Systemove data boli uspesne nacitane" << endl;
 		else
 			cout << "Systemove data neboli nacitane" << endl;
@@ -126,6 +127,15 @@ void Cui::vypisMenu()
 		else
 			cout << "Systemove data neboli ulozene kvoli neznamej chybe" << endl;
 
+		vycistiScreenDajMenu();
+		break;
+	case 15:
+		system("cls");
+		//test->pripravTestovacieData();
+		if (SuborIO::nacitajZoSuboru(spedFirma_, "demo.txt"))
+			cout << "DEMO data boli uspesne nacitane" << endl;
+		else
+			cout << "DEMO data neboli nacitane" << endl;
 
 		vycistiScreenDajMenu();
 		break;
@@ -135,7 +145,7 @@ void Cui::vypisMenu()
 		system("cls");
 		vypisMenu();
 		break;
-	case 15:
+	case 16:
 		system("cls");
 		cout << endl << ">>>>> DAKUJEM VAM ZA UZIVANIE TOHTO SOFTWARU A ZELAM PEKNY DEN <<<<<" << endl << endl;
 		system("pause");

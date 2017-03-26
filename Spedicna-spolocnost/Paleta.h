@@ -6,6 +6,7 @@
 
 using namespace std;
 
+/// <summary> PENDING = Zasielka je v kamione, PREVZATA - paleta je prevzata, NEZREALIZOVANA - paleta 1 triedy nebola odoslana, NEPREVZATA - paleta odmietnuta</summary>
 enum StavZasielky
 {
 	PREVZATA, NEZREALIZOVANA, NEPREVZATA, PENDING
