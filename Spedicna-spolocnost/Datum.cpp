@@ -93,12 +93,7 @@ void Datum::setUpravDatum(int den, int mesiac, int rok)
 
 bool Datum::jePriestupnyRok()
 {
-	if ((rok_ % 4 == 0) && (rok_ % 100 != 0))
-		return true;
-	else if (rok_ % 400 == 0) 
-		return true;
-	else
-		return false;
+	return ((rok_ % 4 == 0) && (rok_ % 100 != 0)) || (rok_ % 400 == 0);
 }
 
 int Datum::dniVMesiaci()
