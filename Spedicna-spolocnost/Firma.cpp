@@ -244,12 +244,16 @@ void Firma::vycistiCeluPamat()
 	Helper::vycistiList(vozidla_);
 	Helper::vycistiList(dodavatelia_);
 	Helper::vycistiList(neprevzatePalety_);
+	Helper::vycistiHeap(vozidlaPripraveneNaStart_);
+	Helper::vycistiList(uskladnenePodlaRegionov_);
 
 	for each (Paleta * pal in *neroztriedenePalety_)
 		delete pal;
+	neroztriedenePalety_->clear();
 
 	while (frontNaOdpis_->size())
 		delete frontNaOdpis_->pop();
+	frontNaOdpis_->clear();
 }
 
 Datum * Firma::getDnesnyDatum()

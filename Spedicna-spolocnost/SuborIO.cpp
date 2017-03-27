@@ -33,7 +33,8 @@ bool SuborIO::ulozDoSuboru(Firma *spedFirma)
 
 	while (spedFirma->getFrontVozNaOdpis()->size()) // SICE SA ZBAVIM FRONTU, ALE KED SA SUBOR ULOZI TAK HO ZNOVA KVOLI OTESTOVANIU NACITAM, TAKZE BUDE FRONT SPAT
 	{
-		file << "VOZ" << "|" << spedFirma->getFrontVozNaOdpis()->pop()->getEvidC() << "|" << spedFirma->getFrontVozNaOdpis()->pop()->getNosnost() << "|" << spedFirma->getFrontVozNaOdpis()->pop()->getOpotrebenie() << "|" << spedFirma->getFrontVozNaOdpis()->pop()->getDatumZaradenia()->getDen() << "|" << spedFirma->getFrontVozNaOdpis()->pop()->getDatumZaradenia()->getMesiac() << "|" << spedFirma->getFrontVozNaOdpis()->pop()->getDatumZaradenia()->getDen() << "\n";
+		Vozidlo *toto = spedFirma->getFrontVozNaOdpis()->pop();
+		file << "VOZ" << "|" << toto->getEvidC() << "|" << toto->getNosnost() << "|" << toto->getOpotrebenie() << "|" << toto->getDatumZaradenia()->getDen() << "|" << toto->getDatumZaradenia()->getMesiac() << "|" << toto->getDatumZaradenia()->getDen() << "\n";
 	}
 
 	// ULOZENIE DODAVATELOV, KAMIONOV A PALIET V KAMIONE
@@ -129,6 +130,8 @@ bool SuborIO::nacitajZoSuboru(Firma * spedFirma, string subor)
 			{
 				Vozidlo* voz = new Vozidlo(x[1], atoi(x[2].c_str()), new Datum(atoi(x[4].c_str()), atoi(x[5].c_str()), atoi(x[6].c_str())));
 				voz->setNavysOpotrebenie(atoi(x[3].c_str()));
+				if (voz->getOpotrebenie() > 90)
+					voz->setNastavNaOdpis();
 				spedFirma->pridajVozidlo(voz);
 			}
 
