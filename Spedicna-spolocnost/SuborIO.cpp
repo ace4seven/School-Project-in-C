@@ -33,7 +33,8 @@ bool SuborIO::ulozDoSuboru(Firma *spedFirma)
 
 	while (spedFirma->getFrontVozNaOdpis()->size()) // SICE SA ZBAVIM FRONTU, ALE KED SA SUBOR ULOZI TAK HO ZNOVA KVOLI OTESTOVANIU NACITAM, TAKZE BUDE FRONT SPAT
 	{
-		file << "VOZ" << "|" << spedFirma->getFrontVozNaOdpis()->pop()->getEvidC() << "|" << spedFirma->getFrontVozNaOdpis()->pop()->getNosnost() << "|" << spedFirma->getFrontVozNaOdpis()->pop()->getOpotrebenie() << "|" << spedFirma->getFrontVozNaOdpis()->pop()->getDatumZaradenia()->getDen() << "|" << spedFirma->getFrontVozNaOdpis()->pop()->getDatumZaradenia()->getMesiac() << "|" << spedFirma->getFrontVozNaOdpis()->pop()->getDatumZaradenia()->getDen() << "\n";
+		Vozidlo *toto = spedFirma->getFrontVozNaOdpis()->pop();
+		file << "VOZ" << "|" << toto->getEvidC() << "|" << toto->getNosnost() << "|" << toto->getOpotrebenie() << "|" << toto->getDatumZaradenia()->getDen() << "|" << toto->getDatumZaradenia()->getMesiac() << "|" << toto->getDatumZaradenia()->getDen() << "\n";
 	}
 
 	// ULOZENIE DODAVATELOV, KAMIONOV A PALIET V KAMIONE
@@ -62,7 +63,7 @@ bool SuborIO::ulozDoSuboru(Firma *spedFirma)
 	for each (Paleta *pal in *spedFirma->getSklad()) // DODAVATEL HMOTNOST, REGION, PRIORITA, (DEN, MESIAC, ROK)->sklad, (DEN,MESIAC,ROK)->dorucenie
 	{
 		int priorita = pal->getPriorita() ? 1 : 0;
-		file << "SKLAD" << "|" << *pal->getDodvatelPalety()->getObchodnyNazov() << "|" << pal->getHmotnostPalety() << "|" << pal->getIdRegion() << "|" << priorita << "|" << pal->getDatumPrichoduDoSkladu()->getDen()
+		file << "SKLAD" << "|" << *pal->getDodvatelPalety()->getObchodnyNazov() << "|" << pal->getStavZasielky() << "|" << pal->getHmotnostPalety() << "|" << pal->getIdRegion() << "|" << priorita << "|" << pal->getDatumPrichoduDoSkladu()->getDen()
 			<< "|" << pal->getDatumPrichoduDoSkladu()->getMesiac() << "|" << pal->getDatumPrichoduDoSkladu()->getRok();
 		if (priorita == 1)
 			file << "|" << pal->getDatumDorucenia()->getDen() << "|" << pal->getDatumDorucenia()->getMesiac() << "|" << pal->getDatumDorucenia()->getRok() << "\n";
@@ -70,11 +71,11 @@ bool SuborIO::ulozDoSuboru(Firma *spedFirma)
 			file << "|" << "0|0|0 \n";
 	}
 
-	// PALETY NEROZTRIEDENE (1 TRIEDA) // NER - DODAVATEL NAZOV, HMOTNOST, REGION, PRIORITA,  (DEN, MESIAC, ROK)->sklad, (DEN,MESIAC,ROK)->dorucenie
+	// PALETY NEROZTRIEDENE (1 TRIEDA) // NER - DODAVATEL NAZOV, STAV, HMOTNOST, REGION, PRIORITA,  (DEN, MESIAC, ROK)->sklad, (DEN,MESIAC,ROK)->dorucenie
 	for each (Paleta *pal in *spedFirma->getNeroztriedenePalety())
 	{
 		int priorita = pal->getPriorita() ? 1 : 0;
-		file << "NER" << "|" << *pal->getDodvatelPalety()->getObchodnyNazov() << "|" << pal->getHmotnostPalety() << "|" << pal->getIdRegion() << "|" << priorita << "|" << pal->getDatumPrichoduDoSkladu()->getDen()
+		file << "NER" << "|" << *pal->getDodvatelPalety()->getObchodnyNazov() << "|" << pal->getStavZasielky() << "|" << pal->getHmotnostPalety() << "|" << pal->getIdRegion() << "|" << priorita << "|" << pal->getDatumPrichoduDoSkladu()->getDen()
 			<< "|" << pal->getDatumPrichoduDoSkladu()->getMesiac() << "|" << pal->getDatumPrichoduDoSkladu()->getRok();
 		if (priorita == 1)
 			file << "|" << pal->getDatumDorucenia()->getDen() << "|" << pal->getDatumDorucenia()->getMesiac() << "|" << pal->getDatumDorucenia()->getRok() << "\n";
@@ -82,7 +83,7 @@ bool SuborIO::ulozDoSuboru(Firma *spedFirma)
 			file << "|" << "0|0|0 \n";
 	}
 
-	// PALETY NEPREVZATE (1 TRIEDA AJ OSTATNE) // NEP - DODAVATEL, STAV NAZOV, HMOTNOST, REGION, PRIORITA, DATUM DORUCENIA DO SKLADU, DATUM DORUCENIA
+	// PALETY NEPREVZATE (1 TRIEDA AJ OSTATNE) // NEP - DODAVATEL NAZOV, STAV, HMOTNOST, REGION, PRIORITA, DATUM DORUCENIA DO SKLADU, DATUM DORUCENIA
 	for each (Paleta *pal in *spedFirma->getNeroztriedenePalety())
 	{
 		int priorita = pal->getPriorita() ? 1 : 0;
@@ -99,10 +100,10 @@ bool SuborIO::ulozDoSuboru(Firma *spedFirma)
 	return true;
 }
 
-bool SuborIO::nacitajZoSuboru(Firma * spedFirma)
+bool SuborIO::nacitajZoSuboru(Firma * spedFirma, string subor)
 {
 	string line;
-	ifstream myfile("demo.txt");
+	ifstream myfile(subor);
 
 	if (myfile.is_open())
 	{
@@ -129,6 +130,8 @@ bool SuborIO::nacitajZoSuboru(Firma * spedFirma)
 			{
 				Vozidlo* voz = new Vozidlo(x[1], atoi(x[2].c_str()), new Datum(atoi(x[4].c_str()), atoi(x[5].c_str()), atoi(x[6].c_str())));
 				voz->setNavysOpotrebenie(atoi(x[3].c_str()));
+				if (voz->getOpotrebenie() > 90)
+					voz->setNastavNaOdpis();
 				spedFirma->pridajVozidlo(voz);
 			}
 
@@ -169,17 +172,19 @@ bool SuborIO::nacitajZoSuboru(Firma * spedFirma)
 
 			while (x[0] == "SKLAD" || x[0] == "NER" || x[0] == "NEP") // DODAVATEL HMOTNOST, REGION, PRIORITA, (DEN, MESIAC, ROK)->sklad, (DEN,MESIAC,ROK)->dorucenie
 			{
-				Paleta *pal = new Paleta(atoi(x[2].c_str()), atoi(x[3].c_str()));
+				Paleta *pal = new Paleta(atoi(x[3].c_str()), atoi(x[4].c_str()));
 				Dodavatel *dod = spedFirma->getDodavatelByFirma(x[1]);
 				if (dod != nullptr)
 				{
 					pal->setDodavatelPalery(dod);
 
-					if (atoi(x[4].c_str()) == 1)
+					if (atoi(x[5].c_str()) == 1)
 						pal->setPrioritnaPaleta();
 
-					pal->setDatumPrichoduDoSkladu(new Datum(atoi(x[5].c_str()), atoi(x[6].c_str()), atoi(x[7].c_str())));
-					pal->setDatumDorucenia(new Datum(atoi(x[8].c_str()), atoi(x[9].c_str()), atoi(x[10].c_str())));
+					pal->setStavZasielky(StavZasielky(atoi(x[2].c_str())));
+
+					pal->setDatumPrichoduDoSkladu(new Datum(atoi(x[6].c_str()), atoi(x[7].c_str()), atoi(x[8].c_str())));
+					pal->setDatumDorucenia(new Datum(atoi(x[9].c_str()), atoi(x[10].c_str()), atoi(x[11].c_str())));
 					if (x[0] == "SKLAD")
 						spedFirma->setPridajPaletuDoSkladu(pal);
 					else if (x[0] == "NER")

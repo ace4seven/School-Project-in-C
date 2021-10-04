@@ -3,10 +3,10 @@
 
 
 Firma::Firma():
-	pocetRegionov_(3)
+	pocetRegionov_(5)
 {
 	initAplikaciu();
-	dnesnyDatum_ = new Datum(4, 5, 2017);
+	dnesnyDatum_ = new Datum(1, 1, 2017);
 }
 
 Firma::Firma(int paDen, int paMesiac, int paRok, int paPocetRegionov):
@@ -86,21 +86,17 @@ void Firma::vypisVozidlaPodlaDatEv()
 	Heap<Vozidlo*> *pFront = new Heap<Vozidlo *>();
 
 	for each (Vozidlo*  vozidlo in *vozidla_)
-	{
 		pFront->push(Helper::vypocitajPriorituDatumu(vozidlo->getDatumZaradenia()), vozidlo);
-	}
 
 	while (pFront->size() > 0)
-	{
 		pFront->pop()->vypisParametre();
-	}
 
 	delete pFront;
 }
 
 void Firma::skontrolujPrichodyKamionov() // O(n^2)
 {
-	cout << endl << ">> DNESNE OCAKAVANE PRICHODY KAMIONOV: " << endl << endl;
+	cout << endl << ">> DNES EVIDUJEME PRICHODY TYCHTO KAMIONOV: " << endl << endl;
 	
 	int pocetPrichodov = 0;
 	int maxNosnostVozidiel = getMaxHmotnostVozidiel(vozidla_);
@@ -114,7 +110,7 @@ void Firma::skontrolujPrichodyKamionov() // O(n^2)
 		for each (Kamion *kamion in *dodavatel->dodavatelKamiony())
 		{
 			dnesRozvazame_ = true;
-			if (*kamion->getDatumPrichodu() == *dnesnyDatum_)
+			if (*kamion->getDatumPrichodu() == *dnesnyDatum_ && !kamion->getVylozeny())
 			{
 				pocetPrichodov++;
 				vylozObsahKamionuDoSkladu(kamion, maxNosnostVozidiel, dodavatel);
@@ -124,7 +120,6 @@ void Firma::skontrolujPrichodyKamionov() // O(n^2)
 
 			if (*kamion->getDatumPrichodu() < *this->dnesnyDatum_)
 			{
-				// Toto bude asi padat, treba vyhodit ten index a ten removenut. TODO - FUNGUJE AJ BEZ
 				kamionyNaVyradenie->push(kamion);
 			}
 		}
@@ -139,9 +134,7 @@ void Firma::skontrolujPrichodyKamionov() // O(n^2)
 	delete kamionyNaVyradenie;
 
 	if (pocetPrichodov == 0)
-	{
 		cout << "Dnes neevidujeme ziaden prichod" << endl;
-	}
 
 	cout << endl;
 }
@@ -192,9 +185,7 @@ void Firma::pridajDodavatela(Dodavatel * paDodavatel)
 void Firma::pridajDodavatelov(ArrayList<Dodavatel*> *paDodavatelia)
 {
 	for each (Dodavatel *dod in *paDodavatelia)
-	{
 		dodavatelia_->add(dod);
-	}
 }
 
 void Firma::vypisDodavatelov()
@@ -219,16 +210,12 @@ void Firma::ohlaseniePrichoduKamionov() // O(n)
 	cout << endl << ">> OHLASENIE PRICHODU KAMIONOV: " << endl << endl;
 
 	for each ( Dodavatel *dod in *dodavatelia_)
-	{
 		dod->ohlaseniePrichoduKamionov();
-	}
 }
 
 void Firma::posunNaDalsiDen()
 {
 	dnesnyDatum_->posunOJedenDen();
-
-	// KONTROLA NEROZTRIEDENYCH PALIET:
 
 	ExplicitStack<Paleta *> *paletyVon = new ExplicitStack<Paleta*>();
 
@@ -237,6 +224,7 @@ void Firma::posunNaDalsiDen()
 		if (pal->getPriorita() && *pal->getDatumDorucenia() == *dnesnyDatum_)
 		{
 			sklad_->add(pal);
+			vahaNaskladnenychPaliet_ += pal->getHmotnostPalety();
 			paletyVon->push(pal);
 		}
 	}
@@ -256,14 +244,16 @@ void Firma::vycistiCeluPamat()
 	Helper::vycistiList(vozidla_);
 	Helper::vycistiList(dodavatelia_);
 	Helper::vycistiList(neprevzatePalety_);
+	Helper::vycistiHeap(vozidlaPripraveneNaStart_);
+	Helper::vycistiList(uskladnenePodlaRegionov_);
 
 	for each (Paleta * pal in *neroztriedenePalety_)
-	{
 		delete pal;
-	}
+	neroztriedenePalety_->clear();
 
 	while (frontNaOdpis_->size())
 		delete frontNaOdpis_->pop();
+	frontNaOdpis_->clear();
 }
 
 Datum * Firma::getDnesnyDatum()
@@ -299,10 +289,8 @@ LinkedList<Paleta*>* Firma::getNeprevzatePalety()
 Dodavatel * Firma::getDodavatelByFirma(string nazovFirmy)
 {
 	for each (Dodavatel *dodavatel in *dodavatelia_)
-	{
 		if (nazovFirmy == *dodavatel->getObchodnyNazov())
 			return dodavatel;
-	}
 
 	return nullptr;
 }
@@ -374,15 +362,12 @@ ArrayList<Region*>* Firma::getSkladPodlaRegionov()
 
 bool Firma::unikatnyDodavatel(const string * paAdresa)
 {
-	// O(n) -- KONTROLA UNIKATNOSTI
 	if (dodavatelia_->size() == 0)
 		return true;
 
 	for each (Dodavatel *tempD in *dodavatelia_)
-	{
 		if (*tempD->getObchodnyNazov() == *paAdresa)
 			return false;
-	}
 
 	return true;
 }
@@ -415,16 +400,12 @@ bool Firma::pridajDodavatelaAbecedne(Dodavatel & dodavatel)
 
 void Firma::vylozObsahKamionuDoSkladu(Kamion * kamion, int paMaxNosnost, Dodavatel *paDodavatel)
 {
-	// OZNACKOVAT PALETY DATUMOM PRICHODU:
-	nastavDatumUskladneniaPaliet(kamion);
-
 	if (kamion)
 	{
 		for each (Paleta * paleta in *kamion->getObsahKamiona())
 		{
 			if (paleta->getHmotnostPalety() > paMaxNosnost) // Pokial bude nosnost palety vacsia ako maximalna nosnost vozidla, tak ju nevylozi.
 			{
-				// TODO : Vyriestit pamatove leaky
 				delete paleta;
 				continue;
 			}
@@ -432,11 +413,11 @@ void Firma::vylozObsahKamionuDoSkladu(Kamion * kamion, int paMaxNosnost, Dodavat
 			// Datum dorucenia v tomto pripade sa tyka len prioritnych paliet.
 			if (paleta->getPriorita() && (*paleta->getDatumDorucenia() < *dnesnyDatum_ || *paleta->getDatumDorucenia() == *dnesnyDatum_) ) // POKIAL DATUM DORUCENIA NIEJE NULL // ak tam je datum, jedna sa o prioritnu zasielku
 			{
-				// TODO: Vyriesit moznost leaku.
 				delete paleta;
 				continue;
 			}
 
+			paleta->setPrioritaPrichoduDoSkladu(dnesnyDatum_);
 			paleta->setDodavatelPalery(paDodavatel);
 			paleta->setDatumPrichoduDoSkladu(new Datum(dnesnyDatum_->getDen(), dnesnyDatum_->getMesiac(), dnesnyDatum_->getRok()));
 
@@ -458,18 +439,14 @@ void Firma::roztriedUskladnenePaletyDoRegionov()
 	if (kapacitaVozidiel_ > vahaNaskladnenychPaliet_)
 	{
 		for each (Paleta *pal in *sklad_)
-		{
 			(*uskladnenePodlaRegionov_)[pal->getIdRegion() - 1]->pridajPaletuNaSklad(pal,2);
-		}
 
 		sklad_->clear();
 	}
 	else
 	{
 		for each (Paleta *pal in *sklad_)
-		{
 			(*uskladnenePodlaRegionov_)[pal->getIdRegion() - 1]->pridajPaletuNaSklad(pal, 1);
-		}
 
 		sklad_->clear();
 	}
@@ -575,46 +552,42 @@ void Firma::prevzatiePalietZakaznikmi()
 
 		if (voz->getOpotrebenie() > 90)
 		{
+			kapacitaVozidiel_ -= voz->getNosnost();
 			voz->setNastavNaOdpis();
 			frontNaOdpis_->push(voz);
-			vozidla_->tryRemove(voz);
 		}
 
 		voz->setRegionRoznasania(0);
 		voz->getNalozenePalety()->clear();
-		//Helper::vymazList(voz->getNalozenePalety());
 	}
 }
 
 void Firma::vyradenieVozidiel()
 {
 	while (frontNaOdpis_->size())
-	{
 		if (vozidla_->tryRemove(frontNaOdpis_->peek()))
 			delete frontNaOdpis_->pop();
-	}
 }
 
 void Firma::vypisPalietVCentralnomSklade()
 {
 	cout << endl << ">> PALETY KTORE ZOSTALI V SKLADE: " << endl << endl;
-	// Ak nam ostali palety prvej triedy, zbavime sa ich presunutim do paliet, ktore sa nestihli rozviest
 
 	for each (Paleta *pal in *neroztriedenePalety_)
 	{
-		cout << "Paleta 1 triedy s prichodom do skladu: " << pal->getDatumPrichoduDoSkladu()->vratRetazec();
-		cout << " | s planovanym datum odovzdania: " << pal->getDatumDorucenia()->vratRetazec();
-		cout << " | s hmotnostou: " << pal->getHmotnostPalety() << " kg" << " a dodavatel: " << *pal->getDodvatelPalety()->getObchodnyNazov() << endl;
+		cout << "Paleta 1.trieda | Uskladnena: " << pal->getDatumPrichoduDoSkladu()->vratRetazec();
+		cout << " | Datum odovzdania: " << pal->getDatumDorucenia()->vratRetazec();
+		cout << " | Vaha: " << pal->getHmotnostPalety() << " kg" << " | Dodavatel: " << *pal->getDodvatelPalety()->getObchodnyNazov() << endl;
 	}
 
 	for each (Paleta * pal in *sklad_)
 	{
 		if (pal->getStavZasielky() == PENDING)
 		{
-			cout << "Paleta s prichodom do skladu: " << pal->getDatumPrichoduDoSkladu()->vratRetazec();
+			cout << "Paleta uskladnena: " << pal->getDatumPrichoduDoSkladu()->vratRetazec();
 			if (pal->getPriorita())
-				cout << " | 1. trieda planovanym datum odovzdania: " << pal->getDatumDorucenia()->vratRetazec();
-			cout << " | s hmotnostou: " << pal->getHmotnostPalety() << " kg" << " a dodavatel: " << *pal->getDodvatelPalety()->getObchodnyNazov() << endl;
+				cout << " | 1. trieda | Datum odovzdania: " << pal->getDatumDorucenia()->vratRetazec();
+			cout << " | Vaha: " << pal->getHmotnostPalety() << " kg" << " | Dodavatel: " << *pal->getDodvatelPalety()->getObchodnyNazov() << endl;
 		}
 	}
 }
@@ -650,10 +623,8 @@ void Firma::vypisPaliet1TriedyNezrealizovane()
 	cout << endl << ">> TIETO PALETY 1 TRIEDY NEBOLI ZREALIZOVANE:  " << endl << endl;
 
 	for each (Paleta *pal in *neprevzatePalety_)
-	{
 		if (pal->getPriorita())
-			cout << "PALETA s prichodom do CS: " << pal->getDatumPrichoduDoSkladu()->vratRetazec() << " | datum dorucenia: " << pal->getDatumDorucenia()->vratRetazec() << " | hmotnost: " << pal->getHmotnostPalety() << " | dodavatel: " << pal->getDodvatelPalety()->getObchodnyNazov() << endl;
-	}
+			cout << "PALETA s prichodom do CS: " << pal->getDatumPrichoduDoSkladu()->vratRetazec() << " | datum dorucenia: " << pal->getDatumDorucenia()->vratRetazec() << " | hmotnost: " << pal->getHmotnostPalety() << " | dodavatel: " << *pal->getDodvatelPalety()->getObchodnyNazov() << endl;
 }
 
 void Firma::inicializujSkladPreRegiony()
@@ -676,24 +647,14 @@ void Firma::vypisPeknuUvodnuObrazovku()
 	cout << " ----------> DATUM: " << getDnesnyDatum()->vratRetazec() << endl << endl;
 }
 
-void Firma::nastavDatumUskladneniaPaliet(Kamion * paKamion)
-{
-	for each (Paleta * pal in *paKamion->getObsahKamiona())
-	{
-		pal->setPrioritaPrichoduDoSkladu(dnesnyDatum_);
-	}
-}
-
 int Firma::getMaxHmotnostVozidiel(ArrayList<Vozidlo*> * paVozidlo)
 {
 	int max = 0;
 	if (paVozidlo)
 	{
 		for each (Vozidlo *voz in *paVozidlo)
-		{
 			if (voz->getNosnost() > max)
 				max = voz->getNosnost();
-		}
 	}
 
 	return max;
@@ -702,8 +663,6 @@ int Firma::getMaxHmotnostVozidiel(ArrayList<Vozidlo*> * paVozidlo)
 void Firma::zoradenieVozidielPodlaOpotrebenia()
 {
 	for each (Vozidlo * voz in * vozidla_)
-	{
 		if (!voz->getCakaNaOdpis())
 			vozidlaPripraveneNaStart_->push(voz->getOpotrebenie(), voz);
-	}
 }

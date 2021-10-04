@@ -175,7 +175,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="developer_notes.txt" />
     <Text Include="save.txt" />
     <Text Include="demo.txt" />
   </ItemGroup>

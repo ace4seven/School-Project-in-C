@@ -2,19 +2,17 @@
 
 
 Paleta::Paleta(int pHmotnost, int paIdRegion):
-	hmotnost_(pHmotnost), idRegion_(paIdRegion), stav(PENDING)
+	hmotnost_(pHmotnost), idRegion_(paIdRegion), stav(PENDING), priorita_(false)
 {
 	datumDorucenia_ = new Datum();
 	datumPrichoduDoSkladu_ = nullptr;
-	priorita_ = false;
 }
 
 Paleta::Paleta(int pHmotnost, int paIdRegion, int paDen, int paMesiac, int paRok):
-	hmotnost_(pHmotnost), idRegion_(paIdRegion), stav(PENDING)
+	hmotnost_(pHmotnost), idRegion_(paIdRegion), stav(PENDING), priorita_(true)
 {
 	datumDorucenia_ = new Datum(paDen, paMesiac, paRok);
 	datumPrichoduDoSkladu_ = nullptr;
-	priorita_ = true;
 }
 
 Paleta::~Paleta()

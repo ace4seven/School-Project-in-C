@@ -17,21 +17,24 @@ using namespace structures;
 class Cui
 {
 public:
+	/// <summary> Konstruktor</summary>
 	Cui();
+	/// <summary> Destruktor</summary>
 	~Cui();
 
 private:
-	// ATRIBUTY
-	char vyberMainMenu_;
-	Firma * spedFirma_;
-
-	// METODY
+	/// <summary> Vypise uzivatelske MENU</summary>
 	void vypisMenu();
+	/// <summary> Vycisti konzolu a vrati MENU</summary>
 	void vycistiScreenDajMenu();
+	/// <summary> Screen na pridanie vozidla do firmy</summary>
 	void pridajVozidloScreen();
+	/// <summary> Screen na pridanie dodavatela do firmy - rovnako aj kamiony a palety</summary>
 	void pridajDodavatelaScreen();
 
-	// ONLY FOR TEST
+	/// <summary> Testovacia trieda (ak nechceme nacitavat zo subora)</summary>
 	Testing *test;
+	/// <summary> Spedicna firma objekt</summary>
+	Firma * spedFirma_;
 };
 

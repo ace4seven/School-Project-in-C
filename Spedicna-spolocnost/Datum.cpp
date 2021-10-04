@@ -18,22 +18,21 @@ Datum::~Datum()
 
 }
 
-void Datum::posunOJedenDen()
+void Datum::posunOJedenDen() 
 {
-	// MOZNO ESTE UPRAVIT NA TVAR, ABY CHECKOVAL PRIESTUPNY, NEPRIESTUPNY ROK A PRESNE MESIAC
-	if (den_ == 30)
+	if (den_ == dniVMesiaci())
 	{
 		den_ = 1;
-		if (mes_ == 12)
+		if (mes_ < 12) 
+			mes_ += 1;
+		else 
 		{
 			mes_ = 1;
-			rok_++;
+			rok_ += 1;
 		}
-		else
-			mes_++;
 	}
-	else
-		den_++;
+	else 
+		den_ += 1;
 }
 
 std::string Datum::vratRetazec()
@@ -90,4 +89,62 @@ void Datum::setUpravDatum(int den, int mesiac, int rok)
 	den_ = den;
 	mes_ = mesiac;
 	rok_ = rok;
+}
+
+bool Datum::jePriestupnyRok()
+{
+	return ((rok_ % 4 == 0) && (rok_ % 100 != 0)) || (rok_ % 400 == 0);
+}
+
+int Datum::dniVMesiaci()
+{
+	int cislo;
+
+	switch (mes_) 
+	{
+	case 1:
+		cislo = 31;
+		break;
+	case 2:
+		if (jePriestupnyRok())
+			cislo = 29;
+		else 
+			cislo = 28;
+		break;
+	case 3:
+		cislo = 31;
+		break;
+	case 4:
+		cislo = 30;
+		break;
+	case 5:
+		cislo = 31;
+		break;
+	case 6:
+		cislo = 30;
+		break;
+	case 7:
+		cislo = 31;
+		break;
+	case 8:
+		cislo = 31;
+		break;
+	case 9:
+		cislo = 30;
+		break;
+	case 10:
+		cislo = 31;
+		break;
+	case 11:
+		cislo = 30;
+		break;
+	case 12:
+		cislo = 31;
+		break;
+	default:
+		cislo = 0;
+		break;
+	}
+
+	return cislo;
 }
